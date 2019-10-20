@@ -25,7 +25,7 @@ router.post("/compose", async (req, res, next) => {
  */
 router.post("/get", async (req, res, next) => {
     try {
-        res.send(await newsFunc.getMessages(req));
+        res.send(await newsFunc.getNews(req));
     }
     catch (err) {
         winston.log("error", err);
