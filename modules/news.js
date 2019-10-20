@@ -84,8 +84,9 @@ const messagesInfo = {
                     type: {
                         name: "Type",
                         type: "text",
-                        minLength: 24,
-                        maxLength: 24
+                        minLength: 1,
+                        maxLength: 64,
+                        required: true
                     }
                 };
 
@@ -159,19 +160,15 @@ const messagesInfo = {
 
     },
 
+    async getNews (req) {
+        let news = await getNews();
 
-
-
-
-
-
-
-
-
-
-
-
-
+        return Promise.resolve({
+            code: 200,
+            status: "success",
+            message: news
+        })
+    },
 
     /**
      *
@@ -180,35 +177,29 @@ const messagesInfo = {
      */
     async getMessages (req) {
         let possibleFields = {
-            status: {
-                name: "Ticket Status",
+            title: {
+                name: "Title",
                 type: "text",
-                minLength: 3,
+                minLength: 1,
+                maxLength: 264,
+            },
+            subTitle: {
+                name: "SubTitle",
+                type: "text",
+                minLength: 0,
+                maxLength: 264,
+            },
+            text: {
+                name: "Text",
+                type: "text",
+                minLength: 1,
+                maxLength: 4096,
+            },
+            type: {
+                name: "Type",
+                type: "text",
+                minLength: 1,
                 maxLength: 64,
-            },
-            agentId: {
-                name: "AgentId",
-                type: "text",
-                minLength: 3,
-                maxLength: 24,
-            },
-            subject: {
-                name: "Subject",
-                type: "text",
-                minLength: 5,
-                maxLength: 64,
-            },
-            conversationId: {
-                name: "ConversationId",
-                type: "text",
-                minLength: 24,
-                maxLength: 24,
-            },
-            lastDocumentId: {
-                name: "Last DocumentId",
-                type: "text",
-                minLength: 24,
-                maxLength: 24,
             }
         };
 
@@ -429,6 +420,27 @@ async function composeMessage(messageInfo) {
                     })
                     : reject(errorTexts.cantSaveDocumentToMongo)
             })
+    });
+}
+
+async function getNews(filter = {}) {
+    let documentInfo = {};
+    documentInfo.collectionName = "messages";
+    documentInfo.filterInfo = filter;
+    documentInfo.optionInfo = {
+        sort: {
+            _id: -1
+        },
+        limit: 5000
+    };
+    documentInfo.projectionInfo = {};
+
+    return new Promise((resolve, reject) => {
+        mongoRequests.findDocuments(documentInfo)
+            .then(docsInfo => {
+                resolve(docsInfo)
+            })
+            .catch(reject)
     });
 }
 
