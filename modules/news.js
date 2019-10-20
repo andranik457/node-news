@@ -163,9 +163,7 @@ const messagesInfo = {
 
     async getNews (req) {
         let urlParts = url.parse(req.url, true);
-        let query = urlParts.query;
-
-        console.log(query)
+        let query = req.query;
 
         let possibleFields = {
             title: {
@@ -212,7 +210,7 @@ const messagesInfo = {
             filter.$and.push({title: data.body.title});
         }
 
-        let news = await getNews();
+        let news = await getNews(filter);
 
         return Promise.resolve({
             code: 200,
