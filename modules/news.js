@@ -141,7 +141,7 @@ const messagesInfo = {
                 };
 
                 if (fileStoreResult) {
-                    messageInfo.fileUrl = config[process.env.NODE_ENV].httpUrl +'/resource/'+ fileStoreResult;
+                    newsInfo.fileUrl = config[process.env.NODE_ENV].httpUrl +'/resource/'+ fileStoreResult;
                 }
 
                 composeResult = await composeMessage(newsInfo);
