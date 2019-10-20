@@ -161,6 +161,51 @@ const messagesInfo = {
     },
 
     async getNews (req) {
+        let possibleFields = {
+            title: {
+                name: "Title",
+                type: "text",
+                minLength: 1,
+                maxLength: 264,
+            },
+            subTitle: {
+                name: "SubTitle",
+                type: "text",
+                minLength: 0,
+                maxLength: 264,
+            },
+            type: {
+                name: "Type",
+                type: "text",
+                minLength: 1,
+                maxLength: 64,
+            }
+        };
+
+        let data = {
+            body: req.body,
+            // userInfo: req.userInfo,
+            possibleForm: possibleFields,
+            editableFields: possibleFields,
+            editableFieldsValues: req.body
+        };
+
+        await helperFunc.validateData(data);
+
+        let filter = {
+            $and: []
+        };
+
+        // check type
+        if (undefined !== data.body.type) {
+            filter.$and.push({type: data.body.type});
+        }
+
+        // check title
+        if (undefined !== data.body.title) {
+            filter.$and.push({title: data.body.title});
+        }
+
         let news = await getNews();
 
         return Promise.resolve({
