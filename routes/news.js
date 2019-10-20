@@ -23,7 +23,7 @@ router.post("/compose", async (req, res, next) => {
 /**
  * Get messages
  */
-router.post("/get", async (req, res, next) => {
+router.get("/get", async (req, res, next) => {
     try {
         res.send(await newsFunc.getNews(req));
     }
