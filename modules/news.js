@@ -6,6 +6,7 @@
 const Busboy                = require("busboy");
 const ObjectID              = require('mongodb').ObjectID;
 const winston               = require("winston");
+const url                   = require('url');
 const config                = require("../config/config");
 const mongoRequests         = require("../dbQueries/mongoRequests");
 const mongoRequestsFiles    = require("../dbQueries/mongoRequestsFiles");
@@ -161,6 +162,11 @@ const messagesInfo = {
     },
 
     async getNews (req) {
+        let urlParts = url.parse(req.url, true);
+        let query = urlParts.query;
+
+        console.log(query)
+
         let possibleFields = {
             title: {
                 name: "Title",
@@ -183,11 +189,11 @@ const messagesInfo = {
         };
 
         let data = {
-            body: req.body,
+            body: query,
             // userInfo: req.userInfo,
             possibleForm: possibleFields,
             editableFields: possibleFields,
-            editableFieldsValues: req.body
+            editableFieldsValues: query
         };
 
         await helperFunc.validateData(data);
