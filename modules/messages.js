@@ -403,7 +403,7 @@ async function composeMessage(messageInfo) {
                     ? resolve({
                         code: 200,
                         status: "Success",
-                        message: "You successfully compose new message",
+                        message: "You successfully compose new news",
                         data: messageInfo
                     })
                     : reject(errorTexts.cantSaveDocumentToMongo)

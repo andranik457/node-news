@@ -10,7 +10,7 @@ const config = {
     mode : "local",
 
     local: {
-        httpUrl: "blah-blah.com",
+        httpUrl: "all-news.com",
 
         port: parseInt(process.env.PORT) || 3015,
 
